@@ -45,7 +45,9 @@ public class MusicService extends Service {
                             musicPlay.playVideo(musicPlay.getPlayPosition());
                             break;
                         case RANDOM:
-
+                            int position = getRandomPosition();
+                            musicPlay.playVideo(position);
+                            positionList.add(position);
                             break;
                     }
 
@@ -65,6 +67,7 @@ public class MusicService extends Service {
         }
 
         public void setPlayType(int playType){
+            positionList.clear();
             MusicService.this.playType = playType;
         }
     }
@@ -75,7 +78,7 @@ public class MusicService extends Service {
      */
     public int getRandomPosition(){
         int position = ((int)System.currentTimeMillis())%musicPlay.getMusicPlayList().size();
-        if (position != musicPlay.getPlayPosition() ){
+        if (position != musicPlay.getPlayPosition() && !positionList.contains(position)){
             return position;
         }else {
             return getRandomPosition();
