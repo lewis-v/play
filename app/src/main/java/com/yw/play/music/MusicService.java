@@ -70,7 +70,7 @@ public class MusicService extends Service {
     }
 
     /**
-     * 获取随机播放的下一个位置12
+     * 获取随机播放的下一个位置
      * @return
      */
     public int getRandomPosition(){
