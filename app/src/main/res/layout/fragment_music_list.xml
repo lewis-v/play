@@ -1,0 +1,50 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/ll_list"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.yw.play.musicfragment.MusicListFragment">
+<android.support.v7.widget.RecyclerView
+    android:clickable="true"
+    android:background="@color/white"
+    android:id="@+id/recycler_music_list"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"/>
+    <LinearLayout
+        android:background="@mipmap/devision"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"/>
+    <LinearLayout
+        android:clickable="true"
+        android:background="@color/white"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:id="@+id/img_type"
+            android:layout_width="30dp"
+            android:layout_height="30dp" />
+        <TextView
+            android:id="@+id/tv_play_type"
+            android:layout_width="0dp"
+            android:textSize="18sp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content" />
+        <ImageView
+            android:src="@drawable/ic_keyboard_capslock_black_24dp"
+            android:id="@+id/img_close"
+            android:layout_width="40dp"
+            android:layout_height="40dp" />
+    </LinearLayout>
+<FrameLayout
+    android:id="@+id/fl_back"
+    android:clickable="true"
+    android:layout_width="match_parent"
+    android:layout_height="0dp"
+    android:layout_weight="1"/>
+
+</LinearLayout>

@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+android:id="@+id/relative_local"
+    android:keepScreenOn="true"
+android:layout_width="match_parent"
+android:layout_height="match_parent">
+<SurfaceView
+    android:id="@+id/surfaceview_local"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" />
+    <TextView
+        android:id="@+id/textview_playtip"
+        android:textColor="@color/white"
+        android:textSize="30sp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textview_playtime"
+        android:layout_centerHorizontal="true" />
+<LinearLayout
+    android:background="#60000000"
+    android:paddingBottom="10dp"
+    android:id="@+id/linear_local_surface"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_alignParentBottom="true"
+    android:layout_centerHorizontal="true">
+    <SeekBar
+        android:max="100"
+        android:progress="0"
+        android:id="@+id/seekbar_playbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <LinearLayout
+        android:layout_gravity="center"
+        android:orientation="horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <ImageButton
+            android:background="#00000000"
+            android:id="@+id/button_stop"
+            android:layout_width="40dp"
+            android:layout_height="40dp" />
+        <ImageButton
+            android:background="#00000000"
+            android:id="@+id/button_last"
+            android:layout_width="40dp"
+            android:layout_height="40dp" />
+        <ImageButton
+            android:background="#00000000"
+            android:id="@+id/button_play"
+            android:layout_width="40dp"
+            android:layout_height="40dp" />
+        <ImageButton
+            android:background="#00000000"
+            android:id="@+id/button_next"
+            android:layout_width="40dp"
+            android:layout_height="40dp" />
+        <ImageButton
+            android:paddingLeft="20dp"
+            android:layout_gravity="center"
+            android:background="#00000000"
+            android:id="@+id/button_max"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+
+
+
+</LinearLayout>
+
+<TextView
+    android:textColor="#5fffffff"
+    android:text="@string/videoTime"
+    android:id="@+id/textview_playtime"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_alignParentTop="true"
+    android:layout_alignParentRight="true"
+    android:layout_alignParentEnd="true" />
+</RelativeLayout>
