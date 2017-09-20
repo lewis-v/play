@@ -24,10 +24,21 @@ public class MyMusicListAdapter extends RecyclerView.Adapter<MyMusicListAdapter.
     private Context context;
     private OnItemClick onItemClick;
     private int playPosition = 0;//播放位置
+    private String path;//默认播放地址
 
-    public MyMusicListAdapter(Context context,List<MusicInfo> musicInfoList){
+    public MyMusicListAdapter(Context context,List<MusicInfo> musicInfoList,String path){
         this.musicInfoList = musicInfoList;
         this.context = context;
+        if (path != null){
+            int i = 0;
+            for (MusicInfo musicInfo : musicInfoList){
+                if (musicInfo.getPath().equals(path)){
+                    playPosition = i;
+                    break;
+                }
+                i++;
+            }
+        }
     }
 
     public interface OnItemClick{

@@ -1,6 +1,8 @@
 package com.yw.play.musicfragment;
 
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -32,7 +34,7 @@ public class MusicListFragment extends Fragment implements View.OnClickListener{
     private List<MusicInfo> musicInfos = new ArrayList<>();
     private FrameLayout fl_back;
     private ImageView img_type,img_close;
-    private TextView tv_play_type;
+    private TextView tv_play_type,tv_list_num;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -49,6 +51,7 @@ public class MusicListFragment extends Fragment implements View.OnClickListener{
         img_close.setOnClickListener(this);
 
         tv_play_type = (TextView)view.findViewById(R.id.tv_play_type);
+        tv_list_num = (TextView)view.findViewById(R.id.tv_list_num);
         setPlayType();
 
         fl_back = (FrameLayout) view.findViewById(R.id.fl_back);
@@ -59,7 +62,9 @@ public class MusicListFragment extends Fragment implements View.OnClickListener{
         recycler_music_list.setItemAnimator(new DefaultItemAnimator());
         recycler_music_list.setLayoutManager(new LinearLayoutManager(getContext()));
         musicInfos = ((MusicListConstract)getActivity()).getMusicList();
-        adapter = new MyMusicListAdapter(getContext(),musicInfos);
+        tv_list_num.setText(" (" +musicInfos.size()+"首)");
+        adapter = new MyMusicListAdapter(getContext(),musicInfos
+                ,getActivity().getSharedPreferences("play.db", Context.MODE_PRIVATE).getString("play_path",null));
         recycler_music_list.setAdapter(adapter);
         adapter.setOnItemClick(new MyMusicListAdapter.OnItemClick() {
             @Override
@@ -71,6 +76,7 @@ public class MusicListFragment extends Fragment implements View.OnClickListener{
             public void onDeleteClick(View view, int position) {
                 musicInfos.remove(position);
                 adapter.notifyItemRemoved(position);
+                tv_list_num.setText(" (" +musicInfos.size()+"首)");
                 if (position == adapter.getPlayPosition()) {
                     ((MusicListConstract) getActivity()).playMusic(position);
                 }
@@ -111,8 +117,12 @@ public class MusicListFragment extends Fragment implements View.OnClickListener{
     public void notifyList(int position){
         if (adapter!=null){
             adapter.setPlayPosition(position);
-            recycler_music_list.scrollToPosition(position);
+            recycler_music_list.smoothScrollToPosition(position);
             adapter.notifyDataSetChanged();
+            SharedPreferences sharedPreferences = getActivity().getSharedPreferences("play.db",Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.putString("play_path",musicInfos.get(position).getPath());
+            editor.apply();
         }
     }
 

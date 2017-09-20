@@ -18,12 +18,8 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".main.MainActivity"
+            android:launchMode="singleTask"
             android:screenOrientation="portrait">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity
             android:name=".video.MyVideoActivity"
@@ -50,7 +46,19 @@
             android:enabled="true"
             android:exported="true" />
 
-        <activity android:name=".music.MusicActivity"></activity>
+        <activity
+            android:name=".music.MusicActivity"
+            android:screenOrientation="portrait">
+
+        </activity>
+        <activity android:name=".flash.FlashActivity"
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>

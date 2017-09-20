@@ -24,11 +24,26 @@ public class MusicPlay {
     private int playing = STOP;//播放状态
     private int playPosition;//播放位置
     private int progressPosition;//播放进度
+    private OnPlayChangeListener onPlayChangeListener ;//播放器状态监听器
 
     public MusicPlay(){
         mediaPlayer = new MediaPlayer();
     }
 
+    public interface OnPlayChangeListener{
+        void onPlay(int position);
+        void onPause();
+        void onStop();
+    }
+
+
+    public void setOnPlayChangeListener(OnPlayChangeListener onPlayChangeListener){
+        this.onPlayChangeListener = onPlayChangeListener;
+    }
+    /**
+     * 设置播放列表
+     * @param musicPlayList
+     */
     public void setMusicPlayList(List<MusicInfo> musicPlayList){
         this.musicPlayList = musicPlayList;
     }
@@ -47,9 +62,24 @@ public class MusicPlay {
             mediaPlayer.start();
             playing = PLAY;
             this.playPosition = position;
+            if (onPlayChangeListener != null){
+                onPlayChangeListener.onPlay(position);
+            }
         }catch (Exception e){
             e.printStackTrace();
         }
+    }
+
+    public boolean playVideo(String path){
+        int i = 0;
+        for (MusicInfo musicInfo : musicPlayList){
+            if (musicInfo.getPath().equals(path)){
+                playVideo(i);
+                return true;
+            }
+            i++;
+        }
+        return false;
     }
 
     /**
@@ -77,6 +107,14 @@ public class MusicPlay {
     }
 
     /**
+     * 设置当前播放位置
+     * @param position
+     */
+    public void setPlayPosition(int position){
+        this.playPosition = position;
+    }
+
+    /**
      * 获取播放列表
      * @return
      */
@@ -90,6 +128,14 @@ public class MusicPlay {
      */
     public MediaPlayer getMediaPlayer(){
         return mediaPlayer;
+    }
+
+    /**
+     * 获取当前播放名
+     * @return
+     */
+    public String getPlayName(){
+        return musicPlayList.get(playPosition).getName();
     }
 
     /**
@@ -108,6 +154,9 @@ public class MusicPlay {
     public void pause(){
         playing = PAUSE;
         mediaPlayer.pause();
+        if (onPlayChangeListener != null){
+            onPlayChangeListener.onPause();
+        }
         Log.i(TAG,"pause");
     }
 
@@ -117,6 +166,9 @@ public class MusicPlay {
     public void stop(){
         playing = STOP;
         mediaPlayer.stop();
+        if (onPlayChangeListener != null){
+            onPlayChangeListener.onStop();
+        }
     }
 
     /**
@@ -125,6 +177,9 @@ public class MusicPlay {
     public void continuePlay(){
         playing = PLAY;
         mediaPlayer.start();
+        if (onPlayChangeListener != null){
+            onPlayChangeListener.onPlay(playPosition);
+        }
     }
 
     /**

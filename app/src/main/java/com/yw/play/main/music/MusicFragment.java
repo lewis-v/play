@@ -35,6 +35,8 @@ import com.yw.play.data.MusicInfo;
 import com.yw.play.music.MusicService;
 import com.yw.play.musicfragment.MusicListConstract;
 import com.yw.play.musicfragment.MusicListFragment;
+import com.yw.play.musicfragment.MusicMoreConstract;
+import com.yw.play.musicfragment.MusicMoreFragment;
 import com.yw.play.utils.MusicPlay;
 import com.yw.play.utils.WindowUtils;
 
@@ -45,7 +47,7 @@ import java.util.List;
  * A simple {@link Fragment} subclass.
  */
 public class MusicFragment extends BaseFragment implements MusicConstract
-        ,View.OnClickListener,MusicListConstract{
+        ,View.OnClickListener,MusicListConstract,MusicMoreConstract{
     private View view;
     private MusicPresenter presenter;
     private RecyclerView recycler;//音乐信息显示列表
@@ -57,8 +59,9 @@ public class MusicFragment extends BaseFragment implements MusicConstract
     private List<MusicInfo> musicInfos = new ArrayList<>();//音乐信息显示列表
     private List<MusicInfo> musicPlayList = new ArrayList<>();//音乐播放列表
     private MusicService.MyBind bind = null;//音乐播放服务
-    private FrameLayout fl_list;
+    private FrameLayout fl_list,fl_more;
     private MusicListFragment musicListFragment = null;//播放列表fragment
+    private MusicMoreFragment musicMoreFragment = null;//更多fragment
     private FragmentTransaction fragmentTransaction;
     private boolean listIsShowing = false;//列表动画是否执行中
     private boolean isTouch = false;//是否正在触发一个功能
@@ -73,6 +76,7 @@ public class MusicFragment extends BaseFragment implements MusicConstract
                 public void onPlayNext(int position) {
                     tv_name.setText(musicPlayList.get(position).getName());
                     tv_auth.setText(musicPlayList.get(position).getAuth());
+                    img_play.setImageResource(R.drawable.ic_pause_black_24dp);
                     musicListFragment.notifyList(position);
                     adapter.setPlayPath(musicInfos.get(position).getPath());
                     adapter.notifyDataSetChanged();
@@ -86,14 +90,22 @@ public class MusicFragment extends BaseFragment implements MusicConstract
             musicPlayList.clear();
             musicPlayList.addAll(musicInfos);
             if (musicPlayList.size() > 0) {
-                tv_name.setText(musicPlayList.get(0).getName());
-                tv_auth.setText(musicPlayList.get(0).getAuth());
+                tv_name.setText(musicPlayList.get(adapter.getPosition()).getName());
+                tv_auth.setText(musicPlayList.get(adapter.getPosition()).getAuth());
             }
             bind.getMusicPlay().setMusicPlayList(musicPlayList);
+            bind.getMusicPlay().setPlayPosition(adapter.getPosition());
+
             musicListFragment = new MusicListFragment();
             fragmentTransaction = getFragmentManager().beginTransaction();
             fragmentTransaction.replace(R.id.fl_list, musicListFragment);
             fragmentTransaction.commit();
+            fragmentTransaction.postOnCommit(new Runnable() {
+                @Override
+                public void run() {
+                    musicListFragment.notifyList(adapter.getPosition());
+                }
+            });
         }
 
         @Override
@@ -113,6 +125,7 @@ public class MusicFragment extends BaseFragment implements MusicConstract
 
     public void initView(){
         fl_list = (FrameLayout)view.findViewById(R.id.fl_list);
+        fl_more = (FrameLayout)view.findViewById(R.id.fl_more);
 
         tool = (Toolbar)view.findViewById(R.id.tool);
 
@@ -135,6 +148,8 @@ public class MusicFragment extends BaseFragment implements MusicConstract
         recycler.setLayoutManager(new LinearLayoutManager(getContext()));
         adapter = new MyMusicHomeAdapter(getContext(),musicInfos);
         recycler.setAdapter(adapter);
+        adapter.setPlayPath(getActivity().getSharedPreferences("play.db",Context.MODE_PRIVATE).getString("play_path",null));
+        adapter.notifyDataSetChanged();
         adapter.setOnItemClick(new MyMusicHomeAdapter.onItemClick() {
             @Override
             public void onItemClick(View view, int position) {
@@ -143,6 +158,9 @@ public class MusicFragment extends BaseFragment implements MusicConstract
                     musicPlayList.clear();
                     musicPlayList.addAll(musicInfos);
                     musicListFragment.notifyList(position);
+                    if (bind != null){
+                        bind.clearNext();
+                    }
                 }
                 //播放音乐
                 playMusic(position);
@@ -151,6 +169,7 @@ public class MusicFragment extends BaseFragment implements MusicConstract
             @Override
             public void onMoreClick(View view, int position) {
                 //其他功能选择
+                addFragmentToMore(musicInfos.get(position).getPath());
             }
         });
         if (ContextCompat.checkSelfPermission(getContext(), android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
@@ -279,6 +298,20 @@ public class MusicFragment extends BaseFragment implements MusicConstract
         return false;
     }
 
+    public void addFragmentToMore(String path) {
+        fl_more.setVisibility(View.VISIBLE);
+        if (path == null){
+
+        }else {
+
+        }
+        musicMoreFragment = new MusicMoreFragment();
+        musicMoreFragment.setPath(path);
+        fragmentTransaction = getFragmentManager().beginTransaction();
+        fragmentTransaction.replace(R.id.fl_more, musicMoreFragment);
+        fragmentTransaction.commit();
+    }
+
     /**
      * 带动画显示播放列表
      * @param isVisiable 是否显示
@@ -351,5 +384,15 @@ public class MusicFragment extends BaseFragment implements MusicConstract
             }
         });
         animatorSet.start();
+    }
+
+    @Override
+    public void checkDetail(String Past) {
+        Toast.makeText(getContext(),"check",Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void setNext(String Path) {
+
     }
 }

@@ -86,7 +86,7 @@ public class MainActivity extends AppCompatActivity implements MusicListConstrac
             hideView();
             return;
         }
-        super.onBackPressed();
+        moveTaskToBack(true);
     }
 
     @Override

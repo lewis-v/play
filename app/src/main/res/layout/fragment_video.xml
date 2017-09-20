@@ -8,6 +8,7 @@
     tools:context="com.yw.play.main.video.VideoFragment">
 
     <android.support.v7.widget.Toolbar
+        android:visibility="gone"
         app:contentInsetStart="0dp"
         android:id="@+id/tool"
         android:layout_width="match_parent"

@@ -83,6 +83,17 @@ public class MyMusicHomeAdapter extends RecyclerView.Adapter<MyMusicHomeAdapter.
         this.playPath = path;
     }
 
+    public int getPosition(){
+        int i = 0;
+        for (MusicInfo musicInfo : musicInfos){
+            if (musicInfo.getPath().equals(playPath)){
+                return i;
+            }
+            i++;
+        }
+        return 0;
+    }
+
     class MyViewHolder extends RecyclerView.ViewHolder{
         LinearLayout ll_music_item,ll_more;
         TextView tv_name,tv_auth,tv_playing;
