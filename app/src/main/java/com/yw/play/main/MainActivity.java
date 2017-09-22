@@ -18,11 +18,12 @@ import com.yw.play.data.MusicInfo;
 import com.yw.play.main.music.MusicFragment;
 import com.yw.play.main.video.VideoFragment;
 import com.yw.play.musicfragment.MusicListConstract;
+import com.yw.play.musicfragment.MusicMoreConstract;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity implements MusicListConstract{
+public class MainActivity extends AppCompatActivity implements MusicListConstract,MusicMoreConstract{
     public static final int PERMISSION = 1;//权限获取标记
 
     private ViewPager viewpager;
@@ -112,5 +113,20 @@ public class MainActivity extends AppCompatActivity implements MusicListConstrac
     @Override
     public int getPlayType() {
         return ((MusicListConstract)fragmentList.get(1)).getPlayType();
+    }
+
+    @Override
+    public void checkDetail(String Past) {
+        ((MusicMoreConstract)fragmentList.get(1)).checkDetail(Past);
+    }
+
+    @Override
+    public void setNext(String Path) {
+        ((MusicMoreConstract)fragmentList.get(1)).setNext(Path);
+    }
+
+    @Override
+    public void showView(String path) {
+        ((MusicMoreConstract)fragmentList.get(1)).showView(path);
     }
 }

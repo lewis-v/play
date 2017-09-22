@@ -83,6 +83,10 @@ public class MyMusicHomeAdapter extends RecyclerView.Adapter<MyMusicHomeAdapter.
         this.playPath = path;
     }
 
+    /**
+     * 获取当前播放位置
+     * @return
+     */
     public int getPosition(){
         int i = 0;
         for (MusicInfo musicInfo : musicInfos){
@@ -92,6 +96,20 @@ public class MyMusicHomeAdapter extends RecyclerView.Adapter<MyMusicHomeAdapter.
             i++;
         }
         return 0;
+    }
+
+    /**
+     * 通过path获取musicinfo信息
+     * @param path
+     * @return
+     */
+    public MusicInfo getMusicInfoByPath(String path){
+        for (MusicInfo musicInfo : musicInfos){
+            if (musicInfo.getPath().equals(path)){
+                return musicInfo;
+            }
+        }
+        return null;
     }
 
     class MyViewHolder extends RecyclerView.ViewHolder{

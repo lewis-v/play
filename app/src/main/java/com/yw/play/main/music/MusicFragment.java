@@ -32,6 +32,7 @@ import com.yw.play.R;
 import com.yw.play.adapter.MyMusicHomeAdapter;
 import com.yw.play.base.BaseFragment;
 import com.yw.play.data.MusicInfo;
+import com.yw.play.dialog.DetailDialogFragment;
 import com.yw.play.music.MusicService;
 import com.yw.play.musicfragment.MusicListConstract;
 import com.yw.play.musicfragment.MusicListFragment;
@@ -288,23 +289,23 @@ public class MusicFragment extends BaseFragment implements MusicConstract
     @Override
     public void hideView() {
         showMusicList(false);
+        addFragmentToMore(null);
     }
 
     @Override
     public boolean isShowList() {
-        if (fl_list.getVisibility() == View.VISIBLE){
+        if (fl_list.getVisibility() == View.VISIBLE || musicMoreFragment != null && musicMoreFragment.isShow() == View.VISIBLE){
             return true;
         }
         return false;
     }
 
+    /**
+     * 添加更多的fragment
+     * @param path 打开的音乐地址,null为关闭
+     */
     public void addFragmentToMore(String path) {
         fl_more.setVisibility(View.VISIBLE);
-        if (path == null){
-
-        }else {
-
-        }
         musicMoreFragment = new MusicMoreFragment();
         musicMoreFragment.setPath(path);
         fragmentTransaction = getFragmentManager().beginTransaction();
@@ -318,6 +319,10 @@ public class MusicFragment extends BaseFragment implements MusicConstract
      */
     public void showMusicList(final boolean isVisiable){
         if(listIsShowing){
+            return;
+        }
+        if (isVisiable && fl_list.getVisibility() == View.VISIBLE
+                || !isVisiable && fl_list.getVisibility() == View.GONE){//当前状态与改变后的状态相同
             return;
         }
         listIsShowing = true;
@@ -388,11 +393,18 @@ public class MusicFragment extends BaseFragment implements MusicConstract
 
     @Override
     public void checkDetail(String Past) {
-        Toast.makeText(getContext(),"check",Toast.LENGTH_SHORT).show();
+        DetailDialogFragment detailDialogFragment = new DetailDialogFragment();
+        detailDialogFragment.setMusicInfo(adapter.getMusicInfoByPath(Past));
+        detailDialogFragment.show(getFragmentManager(),"");
     }
 
     @Override
     public void setNext(String Path) {
+        bind.addNext(adapter.getMusicInfoByPath(Path));
+    }
 
+    @Override
+    public void showView(String path) {
+        addFragmentToMore(path);
     }
 }

@@ -7,4 +7,5 @@ package com.yw.play.musicfragment;
 public interface MusicMoreConstract {
     void checkDetail(String Past);
     void setNext(String Path);
+    void showView(String path);
 }

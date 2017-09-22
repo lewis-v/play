@@ -1,5 +1,6 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/ll_more_fragment"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -7,16 +8,18 @@
 
     <LinearLayout
         android:id="@+id/ll_back"
-        android:background="@color/back"
+        android:clickable="true"
         android:orientation="vertical"
+        android:background="@color/transparent"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"/>
 
     <LinearLayout
+        android:clickable="true"
         android:id="@+id/ll_more"
         android:orientation="horizontal"
-        android:background="@color/back"
+        android:background="@color/colorAccent"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <LinearLayout
