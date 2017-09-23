@@ -19,7 +19,7 @@
         android:clickable="true"
         android:id="@+id/ll_more"
         android:orientation="horizontal"
-        android:background="@color/colorAccent"
+        android:background="@color/back_other"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <LinearLayout
@@ -36,7 +36,7 @@
             <TextView
                 android:layout_marginTop="5dp"
                 android:text="设为下一首"
-                android:textColor="#000000"
+                android:textColor="@color/white"
                 android:textSize="16sp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
@@ -56,7 +56,7 @@
                 android:layout_marginTop="5dp"
                 android:layout_gravity="center_horizontal"
                 android:text="查看详情"
-                android:textColor="#000000"
+                android:textColor="@color/white"
                 android:textSize="16sp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />

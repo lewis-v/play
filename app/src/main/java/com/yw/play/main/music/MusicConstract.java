@@ -10,4 +10,5 @@ import java.util.List;
 
 public interface MusicConstract {
     void onRefreshSuccess(List<MusicInfo> musicInfos);
+    void setPause();
 }

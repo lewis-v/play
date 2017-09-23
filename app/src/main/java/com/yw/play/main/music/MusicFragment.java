@@ -407,4 +407,14 @@ public class MusicFragment extends BaseFragment implements MusicConstract
     public void showView(String path) {
         addFragmentToMore(path);
     }
+
+    @Override
+    public void setPause(){
+        if (bind != null) {
+            if (bind.getMusicPlay().getPlaying() == MusicPlay.PLAY) {
+                bind.getMusicPlay().pause();
+                img_play.setImageResource(R.drawable.ic_play_arrow_black_24dp);
+            }
+        }
+    }
 }

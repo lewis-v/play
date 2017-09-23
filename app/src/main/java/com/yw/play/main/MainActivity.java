@@ -15,6 +15,7 @@ import com.yw.play.R;
 import com.yw.play.adapter.MyFragmentPagerAdapter;
 import com.yw.play.base.BaseFragment;
 import com.yw.play.data.MusicInfo;
+import com.yw.play.main.music.MusicConstract;
 import com.yw.play.main.music.MusicFragment;
 import com.yw.play.main.video.VideoFragment;
 import com.yw.play.musicfragment.MusicListConstract;
@@ -23,7 +24,8 @@ import com.yw.play.musicfragment.MusicMoreConstract;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity implements MusicListConstract,MusicMoreConstract{
+public class MainActivity extends AppCompatActivity implements MusicListConstract,MusicMoreConstract
+        ,MainConstract{
     public static final int PERMISSION = 1;//权限获取标记
 
     private ViewPager viewpager;
@@ -128,5 +130,10 @@ public class MainActivity extends AppCompatActivity implements MusicListConstrac
     @Override
     public void showView(String path) {
         ((MusicMoreConstract)fragmentList.get(1)).showView(path);
+    }
+
+    @Override
+    public void setPause() {
+        ((MusicConstract)fragmentList.get(1)).setPause();
     }
 }

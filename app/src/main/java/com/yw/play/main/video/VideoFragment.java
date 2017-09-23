@@ -28,6 +28,7 @@ import com.yw.play.R;
 import com.yw.play.adapter.MyHomeAdapter;
 import com.yw.play.base.BaseFragment;
 import com.yw.play.data.VideoInfo;
+import com.yw.play.main.MainConstract;
 import com.yw.play.utils.SurfaceViewPlay;
 import com.yw.play.video.MyVideoActivity;
 import com.yw.play.window.WindowService;
@@ -60,8 +61,10 @@ public class VideoFragment extends BaseFragment implements VideoConstract{
                 bind.setOnServiceChangeListener(new WindowService.onServiceChangeLinstener() {
                     @Override
                     public void onServiceStop() {
-                        getActivity().unbindService(serviceConnection);
-                        bind = null;
+                        if (bind != null) {
+                            getActivity().unbindService(serviceConnection);
+                            bind = null;
+                        }
                     }
                 });
                 bind.setVideoInfo(videoInfos.get(playPosition));
@@ -96,6 +99,7 @@ public class VideoFragment extends BaseFragment implements VideoConstract{
             @Override
             public void onItemClick(View view, int position) {
                 if (bind == null) {
+                    ((MainConstract)getActivity()).setPause();
                     Intent intent = new Intent(getContext(), MyVideoActivity.class);
                     SurfaceViewPlay surfaceViewPlay = new SurfaceViewPlay();
                     List<String> paths = new ArrayList<String>();
@@ -125,11 +129,18 @@ public class VideoFragment extends BaseFragment implements VideoConstract{
 
             @Override
             public void onWindowClick(View view, int position) {
-                playPosition = position;
-                Intent intent1 = new Intent(getActivity(), WindowService.class);
-                intent1.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                serviceConnection = new MyServiceConnection();
-                getActivity().bindService(intent1, serviceConnection, getActivity().BIND_AUTO_CREATE);
+                if (askForPermission()) {
+                    if (bind == null){
+                    ((MainConstract) getActivity()).setPause();
+                    playPosition = position;
+                    Intent intent1 = new Intent(getActivity(), WindowService.class);
+                    intent1.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    serviceConnection = new MyServiceConnection();
+                    getActivity().bindService(intent1, serviceConnection, getActivity().BIND_AUTO_CREATE);
+                    }else {
+                        Toast.makeText(getContext(),"小窗口正在播放中",Toast.LENGTH_SHORT).show();
+                    }
+                }
             }
         });
 

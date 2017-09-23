@@ -5,9 +5,17 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.yw.play.musicfragment.MusicListFragment">
+
+
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:background="@color/back_other"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
 <android.support.v7.widget.RecyclerView
     android:clickable="true"
-    android:background="@color/white"
     android:id="@+id/recycler_music_list"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"/>
@@ -17,7 +25,6 @@
         android:layout_height="1dp"/>
     <LinearLayout
         android:clickable="true"
-        android:background="@color/white"
         android:orientation="horizontal"
         android:gravity="center_vertical"
         android:paddingLeft="10dp"
@@ -26,30 +33,35 @@
         android:layout_height="wrap_content">
         <ImageView
             android:id="@+id/img_type"
+            android:tint="@color/white"
             android:layout_width="30dp"
             android:layout_height="30dp" />
         <TextView
             android:id="@+id/tv_play_type"
             android:layout_width="wrap_content"
             android:textSize="18sp"
+            android:textColor="@color/white"
             android:layout_height="wrap_content" />
         <TextView
             android:id="@+id/tv_list_num"
             android:layout_width="0dp"
             android:layout_weight="1"
+            android:textColor="@color/white"
             android:textSize="18sp"
             android:layout_height="wrap_content" />
         <ImageView
             android:src="@drawable/ic_keyboard_capslock_black_24dp"
             android:id="@+id/img_close"
+            android:tint="@color/white"
             android:layout_width="40dp"
             android:layout_height="40dp" />
     </LinearLayout>
-<FrameLayout
-    android:id="@+id/fl_back"
-    android:clickable="true"
-    android:layout_width="match_parent"
-    android:layout_height="0dp"
-    android:layout_weight="1"/>
 
+</LinearLayout>
+    <FrameLayout
+        android:id="@+id/fl_back"
+        android:clickable="true"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"/>
 </LinearLayout>
