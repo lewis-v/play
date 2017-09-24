@@ -89,7 +89,7 @@ public class MainActivity extends AppCompatActivity implements MusicListConstrac
             hideView();
             return;
         }
-        moveTaskToBack(true);
+        moveTaskToBack(true);//模拟home键退出
     }
 
     @Override
@@ -136,4 +136,5 @@ public class MainActivity extends AppCompatActivity implements MusicListConstrac
     public void setPause() {
         ((MusicConstract)fragmentList.get(1)).setPause();
     }
+
 }

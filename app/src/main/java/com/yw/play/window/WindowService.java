@@ -9,6 +9,7 @@ import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
@@ -36,6 +37,8 @@ public class WindowService extends Service implements View.OnClickListener{
     private ImageView img_delete;//关闭按钮
     private int playStatus = END;//当前视频状态
     private onServiceChangeLinstener onServiceChangeLinstener;//回调方法
+    private float downX = 0;
+    private float downY = 0;
 
     @Override
     public void onClick(View view) {
@@ -188,6 +191,35 @@ public class WindowService extends Service implements View.OnClickListener{
         surfaceHolder = surfaceView.getHolder();
         surfaceHolder.setKeepScreenOn(true);
         surfaceHolder.addCallback(play);
+
+        surfaceView.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                if (rl_play.getVisibility() == View.VISIBLE){
+                    return false;
+                }else {
+                    switch (motionEvent.getAction()) {
+                        case MotionEvent.ACTION_DOWN:
+                            downX = motionEvent.getX();
+                            downY = motionEvent.getY();
+                            break;
+                        case MotionEvent.ACTION_MOVE:
+                            layoutParams.x += (motionEvent.getX() - downX)/3;
+                            layoutParams.y += (motionEvent.getY() - downY)/3;
+                            //除以3为消除抖动
+                            if (layout != null){
+                                windowManager.updateViewLayout(layout,layoutParams);
+                            }
+                            return true;
+                        case MotionEvent.ACTION_UP:
+
+                            break;
+                    }
+                }
+                return false;
+            }
+        });
+
         windowManager.addView(layout,layoutParams);
 
         layout.measure(View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED)
@@ -222,7 +254,7 @@ public class WindowService extends Service implements View.OnClickListener{
         Log.i("---continue---","");
         play.continuePlay();
         playStatus = PLAY;
-        img_play.setImageResource(R.drawable.ic_play_arrow_black_24dp);
+        img_play.setImageResource(R.drawable.ic_pause_black_24dp);
     }
 
     /**

@@ -9,4 +9,5 @@
     <color name="transparent">#00000000</color>
 
     <color name="back_other">#1b1b1b</color>
+    <color name="flash_text">#2ab2f2</color>
 </resources>

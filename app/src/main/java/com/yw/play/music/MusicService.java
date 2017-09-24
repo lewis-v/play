@@ -51,51 +51,40 @@ public class MusicService extends Service {
                 @Override
                 public void onCompletion(MediaPlayer mediaPlayer) {
                     //播放结束
-                    switch (playType){
-                        case ORDER:
-                            if (userSetList.size() > 0){//先播放用户选择的下一首
-                                if (musicPlay.playVideo(userSetList.get(0).getPath())) {
-                                    if (onPlayStutasChangeLinstener != null) {
-                                        onPlayStutasChangeLinstener.onPlayNext(musicPlay.getPlayPosition());
-                                    }
-                                    userSetList.remove(0);
-                                }else {//下一首不存在,删除再找下一首
-                                    userSetList.remove(0);
-                                    onCompletion(mediaPlayer);
-                                }
-                            }else
-                            if (musicPlay.playNext()){
-                                if (onPlayStutasChangeLinstener != null){
-                                    onPlayStutasChangeLinstener.onPlayNext(musicPlay.getPlayPosition());
-                                }
-                            }else {
-                                if (onPlayStutasChangeLinstener != null){
-                                    onPlayStutasChangeLinstener.onStop();
-                                }
+                    if (userSetList.size() > 0){//先播放用户选择的下一首
+                        if (musicPlay.playVideo(userSetList.get(0).getPath())) {
+                            if (onPlayStutasChangeLinstener != null) {
+                                onPlayStutasChangeLinstener.onPlayNext(musicPlay.getPlayPosition());
                             }
-                            break;
-                        case SINGLE:
-                            musicPlay.playVideo(musicPlay.getPlayPosition());
-                            break;
-                        case RANDOM:
-                            if (userSetList.size() > 0){//先播放用户选择的下一首
-                                if (musicPlay.playVideo(userSetList.get(0).getPath())) {
+                            userSetList.remove(0);
+                        }else {//下一首不存在,删除再找下一首
+                            userSetList.remove(0);
+                            onCompletion(mediaPlayer);
+                        }
+                    }else {//播放完用户选择的下一首再播放对应播放模式的下一首
+                        switch (playType) {
+                            case ORDER:
+                                if (musicPlay.playNext()) {
                                     if (onPlayStutasChangeLinstener != null) {
                                         onPlayStutasChangeLinstener.onPlayNext(musicPlay.getPlayPosition());
                                     }
-                                    userSetList.remove(0);
-                                }else {//下一首不存在,删除再找下一首
-                                    userSetList.remove(0);
-                                    onCompletion(mediaPlayer);
+                                } else {
+                                    if (onPlayStutasChangeLinstener != null) {
+                                        onPlayStutasChangeLinstener.onStop();
+                                    }
                                 }
-                            }else {
+                                break;
+                            case SINGLE:
+                                musicPlay.playVideo(musicPlay.getPlayPosition());
+                                break;
+                            case RANDOM:
                                 int position = getRandomPosition();
                                 Log.i("---position---", "" + position);
                                 musicPlay.playVideo(position);
                                 positionList.add(position);
                                 onPlayStutasChangeLinstener.onPlayNext(musicPlay.getPlayPosition());
-                            }
-                            break;
+                                break;
+                        }
                     }
                 }
             });
@@ -226,7 +215,7 @@ public class MusicService extends Service {
                 .setTicker(getString(R.string.app_name))//通知栏标题
                 .setPriority(Notification.PRIORITY_DEFAULT)//优先级
                 .setOngoing(true)//设置是否为一个后台任务
-                .setSmallIcon(R.mipmap.ic_launcher);//通知栏缩略图标
+                .setSmallIcon(R.mipmap.flash_logo);//通知栏缩略图标
 
         Notification notify = mBuilder.build();
 

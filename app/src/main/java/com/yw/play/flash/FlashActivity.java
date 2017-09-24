@@ -12,6 +12,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -22,6 +23,7 @@ import com.yw.play.utils.WindowUtils;
 public class FlashActivity extends AppCompatActivity {
     private ImageView img_logo;
     private TextView tv_name,tv_auth;
+    private RelativeLayout activity_flash;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,15 +38,17 @@ public class FlashActivity extends AppCompatActivity {
         img_logo = (ImageView)findViewById(R.id.img_logo);
         tv_auth = (TextView)findViewById(R.id.tv_auth);
         tv_name = (TextView)findViewById(R.id.tv_name);
+        activity_flash = (RelativeLayout)findViewById(R.id.activity_flash);
     }
 
     public void playAnim(){
         ObjectAnimator objectAnimator = ObjectAnimator.ofFloat(img_logo,"translationX",-400,img_logo.getX());
         ObjectAnimator objectAnimator1 = ObjectAnimator.ofFloat(tv_name,"translationX"
                 ,WindowUtils.getInstance(getWindowManager()).getWindowWidth(),tv_name.getX());
+        ObjectAnimator objectAnimator3 = ObjectAnimator.ofFloat(activity_flash,"alpha",0f,1f);
         AnimatorSet animatorSet = new AnimatorSet();
-        animatorSet.playTogether(objectAnimator,objectAnimator1);
-        animatorSet.setDuration(500);
+        animatorSet.playTogether(objectAnimator,objectAnimator1,objectAnimator3);
+        animatorSet.setDuration(800);
         animatorSet.addListener(new Animator.AnimatorListener() {
             @Override
             public void onAnimationStart(Animator animator) {
@@ -55,10 +59,8 @@ public class FlashActivity extends AppCompatActivity {
             public void onAnimationEnd(Animator animator) {
                 tv_auth.setVisibility(View.VISIBLE);
                 ObjectAnimator objectAnimator2 = ObjectAnimator.ofFloat(tv_auth,"alpha",0f,1f);
-                ObjectAnimator objectAnimator3 = ObjectAnimator.ofObject(tv_name,"color"
-                        ,new ArgbEvaluator(), Color.parseColor("#1b1b1b"),Color.parseColor("#ffffff"));
                 AnimatorSet animatorSet1 = new AnimatorSet();
-                animatorSet1.playTogether(objectAnimator2,objectAnimator3);
+                animatorSet1.playTogether(objectAnimator2);
                 animatorSet1.setDuration(1000);
                 animatorSet1.addListener(new Animator.AnimatorListener() {
                     @Override
