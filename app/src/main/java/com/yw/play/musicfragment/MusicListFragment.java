@@ -115,7 +115,7 @@ public class MusicListFragment extends Fragment implements View.OnClickListener{
      * @param position
      */
     public void notifyList(int position){
-        if (adapter!=null){
+        if (adapter!=null && musicInfos.size() > position){
             adapter.setPlayPosition(position);
             recycler_music_list.smoothScrollToPosition(position);
             adapter.notifyDataSetChanged();
